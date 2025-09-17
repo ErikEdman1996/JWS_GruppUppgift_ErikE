@@ -32,6 +32,10 @@ public class Booking
     @Column
     private float totalPrice;
 
+    @Enumerated(EnumType.STRING)
+    @Column
+    private BookingStatus status;
+
     @ManyToOne
     @JoinColumn(name = "travel_id")
     private Travel travel;
@@ -48,6 +52,8 @@ public class Booking
         this.departureDate = departureDate;
         this.weeks = weeks;
         this.travel = travel;
+
+        status = BookingStatus.UPCOMING;
 
         this.hotel = travel.getHotel();
         this.city = travel.getDestination().getCity();
@@ -125,5 +131,23 @@ public class Booking
 
     public void setTravel(Travel travel) {
         this.travel = travel;
+    }
+
+    public BookingStatus getStatus()
+    {
+        return status;
+    }
+
+    public void setStatus(BookingStatus status)
+    {
+        this.status = status;
+    }
+
+    public enum BookingStatus
+    {
+        ACTIVE,
+        UPCOMING,
+        PAST,
+        CANCELED
     }
 }
