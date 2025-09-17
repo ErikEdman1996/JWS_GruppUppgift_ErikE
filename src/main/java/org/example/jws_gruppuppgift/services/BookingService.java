@@ -7,17 +7,21 @@ import org.example.jws_gruppuppgift.repositories.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class BookingService implements BookingServiceInterface
 {
     private final BookingRepository bookingRepository;
     private final TravelService travelService;
+    private final CurrencyService currencyService;
 
     @Autowired
-    public BookingService(final BookingRepository bookingRepository, final TravelService travelService)
+    public BookingService(final BookingRepository bookingRepository, final TravelService travelService,
+                          final CurrencyService currencyService)
     {
         this.bookingRepository = bookingRepository;
         this.travelService = travelService;
+        this.currencyService = currencyService;
     }
 
     @Override
@@ -31,6 +35,14 @@ public class BookingService implements BookingServiceInterface
                 dto.getWeeks(),
                 travel
         );
+
+        //exchangeratesapi.io tillåter endast endpointen '/latest' för gratisanvändare och basvalutan måste vara EUR.
+        //Och då vi går från EUR -> SEK så måste vi dividera SEK med växelkursen för att få antal EUR*/
+
+        float rate = currencyService.getSEKtoEURRate();
+        float EUR = newBooking.getTotalPriceSEK() / rate;
+
+        newBooking.setTotalPriceEUR(EUR);
 
         return bookingRepository.save(newBooking);
     }

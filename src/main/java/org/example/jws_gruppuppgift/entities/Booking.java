@@ -29,8 +29,11 @@ public class Booking
     @Column(name = "destination_country")
     private String country;
 
-    @Column
-    private float totalPrice;
+    @Column(name = "SEK")
+    private float totalPriceSEK;
+
+    @Column(name = "EUR")
+    private float totalPriceEUR;
 
     @Enumerated(EnumType.STRING)
     @Column
@@ -57,7 +60,8 @@ public class Booking
         this.hotel = travel.getHotel();
         this.city = travel.getDestination().getCity();
         this.country = travel.getDestination().getCountry();
-        this.totalPrice = travel.getPricePerWeek() * weeks;
+        this.totalPriceSEK = travel.getPricePerWeek() * weeks;
+        this.totalPriceEUR = 0;
     }
 
     public Long getId() {
@@ -116,14 +120,6 @@ public class Booking
         this.country = country;
     }
 
-    public float getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(float totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
     public Travel getTravel() {
         return travel;
     }
@@ -140,6 +136,22 @@ public class Booking
     public void setStatus(BookingStatus status)
     {
         this.status = status;
+    }
+
+    public float getTotalPriceSEK() {
+        return totalPriceSEK;
+    }
+
+    public void setTotalPriceSEK(float totalPriceSEK) {
+        this.totalPriceSEK = totalPriceSEK;
+    }
+
+    public float getTotalPriceEUR() {
+        return totalPriceEUR;
+    }
+
+    public void setTotalPriceEUR(float totalPriceEUR) {
+        this.totalPriceEUR = totalPriceEUR;
     }
 
     public enum BookingStatus
