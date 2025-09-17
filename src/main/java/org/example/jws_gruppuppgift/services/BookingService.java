@@ -7,6 +7,10 @@ import org.example.jws_gruppuppgift.repositories.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 
 @Service
 public class BookingService implements BookingServiceInterface
@@ -45,5 +49,29 @@ public class BookingService implements BookingServiceInterface
         newBooking.setTotalPriceEUR(EUR);
 
         return bookingRepository.save(newBooking);
+    }
+
+    @Override
+    public Booking cancelBooking(Long id, String customer)
+    {
+        Optional<Booking> booking = bookingRepository.findById(id);
+
+        if(!booking.isPresent() || !booking.get().getCustomer().equals(customer))
+        {
+            //TODO: lägg till exception
+            return null;
+        }
+
+        booking.get().setStatus(Booking.BookingStatus.CANCELED);
+
+        return bookingRepository.save(booking.get());
+    }
+
+    @Override
+    public List<Booking> getAllActiveAndPastBookings(String customer)
+    {
+       List<Booking> bookings = bookingRepository.findByCustomerAndStatusIn(customer, List.of(Booking.BookingStatus.ACTIVE, Booking.BookingStatus.PAST));
+
+        return bookings;
     }
 }

@@ -43,5 +43,21 @@ public class UserController
         return ResponseEntity.status(HttpStatus.CREATED).body(createdBooking);
     }
 
+    @PutMapping("/canceltrip/{id}")
+    public ResponseEntity<Booking> cancelBooking(@PathVariable Long id, Principal principal)
+    {
+        Booking cancelledBooking = bookingService.cancelBooking(id, principal.getName());
+
+        return ResponseEntity.ok(cancelledBooking);
+    }
+
+    @GetMapping("/mybookings")
+    public ResponseEntity<List<Booking>> getActiveAndPastBookings(Principal principal)
+    {
+        List<Booking> bookings = bookingService.getAllActiveAndPastBookings(principal.getName());
+
+        return ResponseEntity.ok(bookings);
+    }
+
 
 }
