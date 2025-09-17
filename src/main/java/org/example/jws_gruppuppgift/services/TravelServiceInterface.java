@@ -7,4 +7,5 @@ import java.util.List;
 public interface TravelServiceInterface
 {
     List<Travel> getAllTravels();
+    Travel getTravelById(Long id);
 }

@@ -45,9 +45,8 @@ public class Booking
 
     }
 
-    public Booking(Long id, String customer, LocalDate departureDate, int weeks, Travel travel)
+    public Booking(String customer, LocalDate departureDate, int weeks, Travel travel)
     {
-        this.id = id;
         this.customer = customer;
         this.departureDate = departureDate;
         this.weeks = weeks;
