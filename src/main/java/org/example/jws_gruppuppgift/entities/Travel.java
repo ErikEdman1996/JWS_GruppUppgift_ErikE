@@ -9,7 +9,7 @@ public class Travel
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(name = "price")
     private float pricePerWeek;
 
     @Column
