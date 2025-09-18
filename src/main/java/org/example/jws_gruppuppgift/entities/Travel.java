@@ -19,6 +19,10 @@ public class Travel
     @JoinColumn(name = "destination_id")
     private Destination destination;
 
+    @Enumerated(EnumType.STRING)
+    @Column
+    private AvailabilityStatus status;
+
     public Travel()
     {
 
@@ -30,6 +34,7 @@ public class Travel
         this.pricePerWeek = pricePerWeek;
         this.hotel = hotel;
         this.destination = destination;
+        this.status = AvailabilityStatus.AVAILABLE;
     }
 
     public Long getId()
@@ -70,5 +75,19 @@ public class Travel
     public void setDestination(Destination destination)
     {
         this.destination = destination;
+    }
+
+    public AvailabilityStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(AvailabilityStatus status) {
+        this.status = status;
+    }
+
+    public enum AvailabilityStatus
+    {
+        AVAILABLE,
+        UNAVAILABLE
     }
 }

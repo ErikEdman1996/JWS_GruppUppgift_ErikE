@@ -10,4 +10,5 @@ public interface BookingServiceInterface
     Booking createBooking(BookingRequestDTO dto, String customer);
     Booking cancelBooking(Long id, String customer);
     List<Booking> getAllActiveAndPastBookings(String customer);
+    List<Booking> getAllBookingsByStatus(List<Booking.BookingStatus> statuses);
 }

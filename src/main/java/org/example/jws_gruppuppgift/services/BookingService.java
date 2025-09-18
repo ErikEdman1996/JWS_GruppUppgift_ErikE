@@ -74,4 +74,12 @@ public class BookingService implements BookingServiceInterface
 
         return bookings;
     }
+
+    @Override
+    public List<Booking> getAllBookingsByStatus(List<Booking.BookingStatus> statuses)
+    {
+        List<Booking> bookings = bookingRepository.findByStatusIn(statuses);
+
+        return bookings;
+    }
 }
