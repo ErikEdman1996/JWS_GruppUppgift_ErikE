@@ -5,10 +5,9 @@ import org.example.jws_gruppuppgift.entities.Travel;
 import org.example.jws_gruppuppgift.services.BookingService;
 import org.example.jws_gruppuppgift.services.TravelService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class AdminController
     }
 
     @GetMapping("/listcanceled")
-    ResponseEntity<List<Booking>> getAllCanceledBookings()
+    public ResponseEntity<List<Booking>> getAllCanceledBookings()
     {
         List<Booking> bookings = bookingService.getAllBookingsByStatus(List.of(Booking.BookingStatus.CANCELED));
 
@@ -35,7 +34,7 @@ public class AdminController
     }
 
     @GetMapping("/listupcoming")
-    ResponseEntity<List<Booking>> getAllUpcomingBookings()
+    public ResponseEntity<List<Booking>> getAllUpcomingBookings()
     {
         List<Booking> bookings = bookingService.getAllBookingsByStatus(List.of(Booking.BookingStatus.UPCOMING));
 
@@ -43,7 +42,7 @@ public class AdminController
     }
 
     @GetMapping("/listpast")
-    ResponseEntity<List<Booking>> getAllPastBookings()
+    public ResponseEntity<List<Booking>> getAllPastBookings()
     {
         List<Booking> bookings = bookingService.getAllBookingsByStatus(List.of(Booking.BookingStatus.PAST));
 
@@ -51,10 +50,34 @@ public class AdminController
     }
 
     @GetMapping("/travels")
-    ResponseEntity<List<Travel>> getAllTravels()
+    public ResponseEntity<List<Travel>> getAllTravels()
     {
         List<Travel> travels = travelService.getAllTravels();
 
         return ResponseEntity.ok(travels);
+    }
+
+    @PostMapping("/addtravel")
+    public ResponseEntity<Travel> addTravel(@RequestBody Travel travel)
+    {
+        Travel addedTravel = travelService.addTravel(travel);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(addedTravel);
+    }
+
+    @PutMapping("/updatetravel")
+    public ResponseEntity<Travel> updateTravel(@RequestBody Travel travel)
+    {
+        Travel updatedTravel = travelService.updateTravel(travel);
+
+        return ResponseEntity.ok(updatedTravel);
+    }
+
+    @DeleteMapping("/removetravel/{id}")
+    public ResponseEntity<?> deleteTravel(@PathVariable Long id)
+    {
+        travelService.deleteTravelById(id);
+
+        return ResponseEntity.noContent().build();
     }
 }

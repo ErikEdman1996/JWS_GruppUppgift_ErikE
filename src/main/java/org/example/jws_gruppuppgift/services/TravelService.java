@@ -37,4 +37,22 @@ public class TravelService implements TravelServiceInterface
 
         return travel.get();
     }
+
+    @Override
+    public Travel addTravel(Travel travel)
+    {
+        return travelRepository.save(travel);
+    }
+
+    @Override
+    public Travel updateTravel(Travel travel)
+    {
+        return null;
+    }
+
+    @Override
+    public void deleteTravelById(Long id)
+    {
+
+    }
 }

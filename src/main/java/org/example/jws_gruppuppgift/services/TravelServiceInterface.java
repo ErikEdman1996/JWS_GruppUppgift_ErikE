@@ -8,4 +8,7 @@ public interface TravelServiceInterface
 {
     List<Travel> getAllTravels();
     Travel getTravelById(Long id);
+    Travel addTravel(Travel travel);
+    Travel updateTravel(Travel travel);
+    void deleteTravelById(Long id);
 }
