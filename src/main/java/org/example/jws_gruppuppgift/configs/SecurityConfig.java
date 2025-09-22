@@ -46,7 +46,6 @@ public class SecurityConfig
                         .requestMatchers("/api/wigelltravels/v1/listcanceled").hasRole("ADMIN")
                         .requestMatchers("/api/wigelltravels/v1/listupcoming").hasRole("ADMIN")
                         .requestMatchers("/api/wigelltravels/v1/listpast").hasRole("ADMIN")
-                        .requestMatchers("/api/wigelltravels/v1/travels").hasRole("ADMIN")
                         .requestMatchers("/api/wigelltravels/v1/addtravel").hasRole("ADMIN")
                         .requestMatchers("/api/wigelltravels/v1/updatetravel").hasRole("ADMIN")
                         .requestMatchers("/api/wigelltravels/v1/removetravel").hasRole("ADMIN")

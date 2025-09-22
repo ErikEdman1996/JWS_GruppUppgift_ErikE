@@ -49,13 +49,13 @@ public class AdminController
         return ResponseEntity.ok(bookings);
     }
 
-    @GetMapping("/travels")
+    /*@GetMapping("/travels")
     public ResponseEntity<List<Travel>> getAllTravels()
     {
         List<Travel> travels = travelService.getAllTravels();
 
         return ResponseEntity.ok(travels);
-    }
+    }*/
 
     @PostMapping("/addtravel")
     public ResponseEntity<Travel> addTravel(@RequestBody Travel travel)

@@ -4,6 +4,8 @@ import org.example.jws_gruppuppgift.dtos.BookingRequestDTO;
 import org.example.jws_gruppuppgift.entities.Booking;
 import org.example.jws_gruppuppgift.entities.Travel;
 import org.example.jws_gruppuppgift.repositories.BookingRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,8 @@ public class BookingService implements BookingServiceInterface
     private final TravelService travelService;
     private final CurrencyService currencyService;
 
+    private static final Logger bookingLogger = LogManager.getLogger("BookingLogger");
+
     @Autowired
     public BookingService(final BookingRepository bookingRepository, final TravelService travelService,
                           final CurrencyService currencyService)
@@ -31,6 +35,7 @@ public class BookingService implements BookingServiceInterface
     @Override
     public Booking createBooking(BookingRequestDTO dto, String customer)
     {
+        bookingLogger.info("Retrieving travel with ID {}", dto.getTravelId());
         Travel travel = travelService.getTravelById(dto.getTravelId());
 
         Booking newBooking = new Booking(
@@ -48,7 +53,10 @@ public class BookingService implements BookingServiceInterface
 
         newBooking.setTotalPriceEUR(EUR);
 
-        return bookingRepository.save(newBooking);
+        bookingRepository.save(newBooking);
+        bookingLogger.info("Added booking with ID {}", newBooking.getId());
+
+        return newBooking;
     }
 
     @Override
