@@ -11,28 +11,28 @@ public class Booking
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(length = 40, nullable = false)
     private String customer;
 
     @Column(name = "departure")
     private LocalDate departureDate;
 
-    @Column
+    @Column(nullable = false)
     private int weeks;
 
-    @Column
+    @Column(length = 40, nullable = false)
     private String hotel;
 
-    @Column(name = "destination_city")
+    @Column(name = "destination_city", length = 40, nullable = false)
     private String city;
 
-    @Column(name = "destination_country")
+    @Column(name = "destination_country", length = 40, nullable = false)
     private String country;
 
-    @Column(name = "SEK")
+    @Column(name = "SEK", nullable = false)
     private float totalPriceSEK;
 
-    @Column(name = "EUR")
+    @Column(name = "EUR", nullable = false)
     private float totalPriceEUR;
 
     @Enumerated(EnumType.STRING)
@@ -40,7 +40,7 @@ public class Booking
     private BookingStatus status;
 
     @ManyToOne
-    @JoinColumn(name = "travel_id")
+    @JoinColumn(name = "travel_id", nullable = false)
     private Travel travel;
 
     public Booking()
@@ -159,6 +159,6 @@ public class Booking
         ACTIVE,
         UPCOMING,
         PAST,
-        CANCELED
+        CANCELLED
     }
 }

@@ -9,10 +9,10 @@ public class Travel
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "price")
+    @Column(name = "price", nullable = false)
     private float pricePerWeek;
 
-    @Column
+    @Column(length = 40, nullable = false)
     private String hotel;
 
     @ManyToOne(cascade = CascadeType.ALL)

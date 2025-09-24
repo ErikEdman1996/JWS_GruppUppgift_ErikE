@@ -23,11 +23,23 @@
                 <SizeBasedTriggeringPolicy size="5MB"/>
             </Policies>
         </RollingFile>
+        <RollingFile name="TravelFile" fileName="${LOG_DIR}/travel.log"
+                     filePattern="${LOG_DIR}/travel-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %highlight{%-5level} %logger{36} - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="5MB"/>
+            </Policies>
+        </RollingFile>
     </appenders>
     <loggers>
 
         <logger name="BookingLogger" level="info" additivity="false">
             <appender-ref ref="BookingFile"/>
+        </logger>
+
+        <logger name="TravelLogger" level="info" additivity="false">
+            <appender-ref ref="TravelFile"/>
         </logger>
 
         <root level="info">

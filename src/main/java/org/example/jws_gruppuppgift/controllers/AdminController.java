@@ -1,8 +1,11 @@
 package org.example.jws_gruppuppgift.controllers;
 
+import org.apache.coyote.Response;
 import org.example.jws_gruppuppgift.entities.Booking;
+import org.example.jws_gruppuppgift.entities.Destination;
 import org.example.jws_gruppuppgift.entities.Travel;
 import org.example.jws_gruppuppgift.services.BookingService;
+import org.example.jws_gruppuppgift.services.DestinationService;
 import org.example.jws_gruppuppgift.services.TravelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,18 +20,20 @@ public class AdminController
 {
     final BookingService bookingService;
     final TravelService travelService;
+    final DestinationService destinationService;
 
     @Autowired
-    public AdminController(final BookingService bookingService, final TravelService travelService)
+    public AdminController(final BookingService bookingService, final TravelService travelService, final DestinationService destinationService)
     {
         this.bookingService = bookingService;
         this.travelService = travelService;
+        this.destinationService = destinationService;
     }
 
     @GetMapping("/listcanceled")
-    public ResponseEntity<List<Booking>> getAllCanceledBookings()
+    public ResponseEntity<List<Booking>> getAllCancelledBookings()
     {
-        List<Booking> bookings = bookingService.getAllBookingsByStatus(List.of(Booking.BookingStatus.CANCELED));
+        List<Booking> bookings = bookingService.getAllBookingsByStatus(List.of(Booking.BookingStatus.CANCELLED));
 
         return ResponseEntity.ok(bookings);
     }
@@ -48,14 +53,6 @@ public class AdminController
 
         return ResponseEntity.ok(bookings);
     }
-
-    /*@GetMapping("/travels")
-    public ResponseEntity<List<Travel>> getAllTravels()
-    {
-        List<Travel> travels = travelService.getAllTravels();
-
-        return ResponseEntity.ok(travels);
-    }*/
 
     @PostMapping("/addtravel")
     public ResponseEntity<Travel> addTravel(@RequestBody Travel travel)
@@ -79,5 +76,45 @@ public class AdminController
         travelService.deleteTravelById(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/getdestination/{id}")
+    public ResponseEntity<Destination> getDestination(@PathVariable Long id)
+    {
+        Destination destination = destinationService.getDestination(id);
+
+        return ResponseEntity.ok(destination);
+    }
+
+    @PostMapping("/add_destination")
+    public ResponseEntity<Destination> addDestination(@RequestBody Destination destination)
+    {
+        Destination destinationToAdd = destinationService.addDestination(destination);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(destinationToAdd);
+    }
+
+    @PutMapping("/updatedestination")
+    public ResponseEntity<Destination> updateDestination(@RequestBody Destination destination)
+    {
+        Destination destinationToUpdate = destinationService.updateDestination(destination);
+
+        return ResponseEntity.ok(destinationToUpdate);
+    }
+
+    @DeleteMapping("/deletedestination/{id}")
+    public ResponseEntity<?> deleteDestination(@PathVariable Long id)
+    {
+        destinationService.deleteDestination(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/listdestinations")
+    public ResponseEntity<List<Destination>> getAllDestinations()
+    {
+        List<Destination> destinations = destinationService.getAllDestinations();
+
+        return ResponseEntity.ok(destinations);
     }
 }

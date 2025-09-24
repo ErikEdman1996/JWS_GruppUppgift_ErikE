@@ -3,13 +3,14 @@ package org.example.jws_gruppuppgift.services;
 import org.example.jws_gruppuppgift.dtos.BookingRequestDTO;
 import org.example.jws_gruppuppgift.entities.Booking;
 import org.example.jws_gruppuppgift.entities.Travel;
+import org.example.jws_gruppuppgift.exceptions.ResourceNotFoundException;
+import org.example.jws_gruppuppgift.exceptions.UnauthorizedActionException;
 import org.example.jws_gruppuppgift.repositories.BookingRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,7 +55,7 @@ public class BookingService implements BookingServiceInterface
         newBooking.setTotalPriceEUR(EUR);
 
         bookingRepository.save(newBooking);
-        bookingLogger.info("Added booking with ID {}", newBooking.getId());
+        bookingLogger.info("Customer: {} booked {} weeks of travel to {}", customer, dto.getWeeks(), travel.getDestination().toString());
 
         return newBooking;
     }
@@ -62,15 +63,22 @@ public class BookingService implements BookingServiceInterface
     @Override
     public Booking cancelBooking(Long id, String customer)
     {
+        bookingLogger.info("Retrieving booking with ID {}", id);
         Optional<Booking> booking = bookingRepository.findById(id);
 
-        if(!booking.isPresent() || !booking.get().getCustomer().equals(customer))
+        if(!booking.isPresent())
         {
-            //TODO: lägg till exception
-            return null;
+            bookingLogger.warn("Could not find booking with ID {}", id);
+            throw new ResourceNotFoundException("Booking", "id", id);
+        }
+        else if(!booking.get().getCustomer().equals(customer))
+        {
+            bookingLogger.warn("Booking with ID {} does not belong to {}", id, customer);
+            throw new UnauthorizedActionException("Wrong customer");
         }
 
-        booking.get().setStatus(Booking.BookingStatus.CANCELED);
+        bookingLogger.info("Customer: {} cancelled booking with ID {}", customer, id);
+        booking.get().setStatus(Booking.BookingStatus.CANCELLED);
 
         return bookingRepository.save(booking.get());
     }
@@ -78,7 +86,8 @@ public class BookingService implements BookingServiceInterface
     @Override
     public List<Booking> getAllActiveAndPastBookings(String customer)
     {
-       List<Booking> bookings = bookingRepository.findByCustomerAndStatusIn(customer, List.of(Booking.BookingStatus.ACTIVE, Booking.BookingStatus.PAST));
+        bookingLogger.info("Retrieving all active and past bookings belonging to {}", customer);
+        List<Booking> bookings = bookingRepository.findByCustomerAndStatusIn(customer, List.of(Booking.BookingStatus.ACTIVE, Booking.BookingStatus.PAST));
 
         return bookings;
     }
@@ -86,6 +95,7 @@ public class BookingService implements BookingServiceInterface
     @Override
     public List<Booking> getAllBookingsByStatus(List<Booking.BookingStatus> statuses)
     {
+        bookingLogger.info("Retrieving all bookings with the statuses: {}", statuses);
         List<Booking> bookings = bookingRepository.findByStatusIn(statuses);
 
         return bookings;

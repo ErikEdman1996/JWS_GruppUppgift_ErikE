@@ -9,10 +9,10 @@ public class Destination
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(length = 40, nullable = false)
     private String city;
 
-    @Column
+    @Column(length = 40, nullable = false)
     private String country;
 
     public Destination()
@@ -55,5 +55,13 @@ public class Destination
     public void setCountry(String country)
     {
         this.country = country;
+    }
+
+    @Override
+    public String toString() {
+        return "Destination{" +
+                "city='" + city + '\'' +
+                ", country='" + country + '\'' +
+                '}';
     }
 }
