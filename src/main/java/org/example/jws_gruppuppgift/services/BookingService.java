@@ -84,6 +84,60 @@ public class BookingService implements BookingServiceInterface
     }
 
     @Override
+    public Booking getBooking(Long id)
+    {
+        bookingLogger.info("Retrieving booking with ID {}", id);
+        Optional<Booking> booking = bookingRepository.findById(id);
+
+        if(!booking.isPresent())
+        {
+            bookingLogger.warn("Could not find booking with ID {}", id);
+            throw new ResourceNotFoundException("Booking", "id", id);
+        }
+
+        return booking.get();
+    }
+
+    @Override
+    public Booking updateBooking(Booking booking)
+    {
+        bookingLogger.info("Retrieving booking with ID {}", booking.getId());
+        Optional<Booking> bookingToUpdate = bookingRepository.findById(booking.getId());
+
+        if(!bookingToUpdate.isPresent())
+        {
+            bookingLogger.warn("Could not find booking with ID {}", booking.getId());
+            throw new ResourceNotFoundException("Booking", "id", booking.getId());
+        }
+
+        bookingLogger.info("Updating booking with ID {}", booking.getId());
+        return bookingRepository.save(booking);
+    }
+
+    @Override
+    public void deleteBooking(Long id)
+    {
+        bookingLogger.info("Retrieving booking with ID {}", id);
+        Optional<Booking> bookingToDelete = bookingRepository.findById(id);
+
+        if(!bookingToDelete.isPresent())
+        {
+            bookingLogger.warn("Could not find booking with ID {}", id);
+            throw new ResourceNotFoundException("Booking", "id", id);
+        }
+
+        bookingLogger.info("Deleting booking with ID {}", id);
+        bookingRepository.delete(bookingToDelete.get());
+    }
+
+    @Override
+    public List<Booking> getAllBookings()
+    {
+        bookingLogger.info("Retrieving all bookings");
+        return bookingRepository.findAll();
+    }
+
+    @Override
     public List<Booking> getAllActiveAndPastBookings(String customer)
     {
         bookingLogger.info("Retrieving all active and past bookings belonging to {}", customer);

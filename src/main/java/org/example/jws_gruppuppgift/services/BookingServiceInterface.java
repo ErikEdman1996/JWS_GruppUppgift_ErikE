@@ -9,6 +9,10 @@ public interface BookingServiceInterface
 {
     Booking createBooking(BookingRequestDTO dto, String customer);
     Booking cancelBooking(Long id, String customer);
+    Booking getBooking(Long id);
+    Booking updateBooking(Booking booking);
+    void deleteBooking(Long id);
+    List<Booking> getAllBookings();
     List<Booking> getAllActiveAndPastBookings(String customer);
     List<Booking> getAllBookingsByStatus(List<Booking.BookingStatus> statuses);
 }

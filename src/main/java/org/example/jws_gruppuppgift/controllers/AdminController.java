@@ -30,6 +30,8 @@ public class AdminController
         this.destinationService = destinationService;
     }
 
+
+    /********** BOOKING ENDPOINTS ************/
     @GetMapping("/listcanceled")
     public ResponseEntity<List<Booking>> getAllCancelledBookings()
     {
@@ -54,6 +56,31 @@ public class AdminController
         return ResponseEntity.ok(bookings);
     }
 
+    @GetMapping("/booking/{id}")
+    public ResponseEntity<Booking> getBooking(@PathVariable Long id)
+    {
+        Booking booking = bookingService.getBooking(id);
+
+        return ResponseEntity.ok(booking);
+    }
+
+    @PutMapping("/updatebooking")
+    public ResponseEntity<Booking> updateBooking(@RequestBody Booking booking)
+    {
+        Booking bookingToUpdate = bookingService.getBooking(booking.getId());
+
+        return ResponseEntity.ok(bookingService.updateBooking(bookingToUpdate));
+    }
+
+    @DeleteMapping("/deletebooking/{id}")
+    public ResponseEntity<?> deleteBooking(@PathVariable Long id)
+    {
+        bookingService.deleteBooking(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    /********** TRAVEL ENDPOINTS ************/
     @PostMapping("/addtravel")
     public ResponseEntity<Travel> addTravel(@RequestBody Travel travel)
     {
@@ -78,7 +105,8 @@ public class AdminController
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/getdestination/{id}")
+    /********** DESTINATION ENDPOINTS ************/
+    @GetMapping("/destination/{id}")
     public ResponseEntity<Destination> getDestination(@PathVariable Long id)
     {
         Destination destination = destinationService.getDestination(id);
