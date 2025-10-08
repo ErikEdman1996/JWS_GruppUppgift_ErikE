@@ -97,12 +97,12 @@ public class AdminController
         return ResponseEntity.ok(updatedTravel);
     }
 
-    @DeleteMapping("/removetravel/{id}")
-    public ResponseEntity<?> deleteTravel(@PathVariable Long id)
+    @PutMapping("/removetravel/{id}")
+    public ResponseEntity<Travel> deleteTravel(@PathVariable Long id)
     {
-        travelService.deleteTravelById(id);
+        Travel travel = travelService.removeTravelById(id);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(travel);
     }
 
     /********** DESTINATION ENDPOINTS ************/

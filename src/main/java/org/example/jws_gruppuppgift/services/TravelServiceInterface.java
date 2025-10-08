@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface TravelServiceInterface
 {
-    List<Travel> getAllTravels();
+    List<Travel> getAllTravels(boolean isAdmin);
     Travel getTravelById(Long id);
     Travel addTravel(Travel travel);
     Travel updateTravel(Travel travel);
-    void deleteTravelById(Long id);
+    Travel removeTravelById(Long id);
 }

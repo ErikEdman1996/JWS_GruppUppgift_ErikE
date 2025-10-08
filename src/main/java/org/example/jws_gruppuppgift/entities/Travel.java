@@ -1,6 +1,11 @@
 package org.example.jws_gruppuppgift.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Travel
@@ -15,7 +20,7 @@ public class Travel
     @Column(length = 40, nullable = false)
     private String hotel;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "destination_id")
     private Destination destination;
 
@@ -23,18 +28,21 @@ public class Travel
     @Column
     private AvailabilityStatus status;
 
+    @OneToMany(mappedBy = "travel")
+    @JsonManagedReference
+    private List<Booking> bookings = new ArrayList<>();
+
     public Travel()
     {
 
     }
 
-    public Travel(Long id, float pricePerWeek, String hotel, Destination destination)
-    {
+    public Travel(Long id, float pricePerWeek, String hotel, Destination destination, List<Booking> bookings) {
         this.id = id;
         this.pricePerWeek = pricePerWeek;
         this.hotel = hotel;
         this.destination = destination;
-        this.status = AvailabilityStatus.AVAILABLE;
+        this.bookings = bookings != null ? new ArrayList<>(bookings) : null;
     }
 
     public Long getId()
@@ -89,5 +97,13 @@ public class Travel
     {
         AVAILABLE,
         UNAVAILABLE
+    }
+
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
     }
 }

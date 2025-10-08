@@ -27,14 +27,6 @@ public class UserController
         this.bookingService = bookingService;
     }
 
-    @GetMapping("/travels")
-    public ResponseEntity<List<Travel>> getTravels()
-    {
-        List<Travel> travels = travelService.getAllTravels();
-
-        return ResponseEntity.ok(travels);
-    }
-
     @PostMapping("/booktrip")
     public ResponseEntity<Booking> createBooking(@RequestBody BookingRequestDTO bookingRequestDTO, Principal principal)
     {

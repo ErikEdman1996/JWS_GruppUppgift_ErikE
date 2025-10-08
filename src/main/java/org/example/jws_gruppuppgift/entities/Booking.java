@@ -1,5 +1,6 @@
 package org.example.jws_gruppuppgift.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -29,18 +30,19 @@ public class Booking
     @Column(name = "destination_country", length = 40, nullable = false)
     private String country;
 
-    @Column(name = "SEK", nullable = false)
+    @Column(name = "total_price_SEK", nullable = false)
     private float totalPriceSEK;
 
-    @Column(name = "EUR", nullable = false)
+    @Column(name = "total_price_EUR", nullable = false)
     private float totalPriceEUR;
 
     @Enumerated(EnumType.STRING)
     @Column
     private BookingStatus status;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "travel_id", nullable = false)
+    @JsonBackReference
     private Travel travel;
 
     public Booking()

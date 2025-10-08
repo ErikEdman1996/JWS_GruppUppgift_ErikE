@@ -39,6 +39,11 @@ public class BookingService implements BookingServiceInterface
         bookingLogger.info("Retrieving travel with ID {}", dto.getTravelId());
         Travel travel = travelService.getTravelById(dto.getTravelId());
 
+        if(travel == null)
+        {
+            throw new ResourceNotFoundException("Travel", "id", dto.getTravelId());
+        }
+
         Booking newBooking = new Booking(
                 customer,
                 dto.getDepartureDate(),
