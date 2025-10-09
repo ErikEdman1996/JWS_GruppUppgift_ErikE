@@ -1,7 +1,6 @@
 package org.example.jws_gruppuppgift.controllers;
 
-import org.apache.coyote.Response;
-import org.example.jws_gruppuppgift.entities.Booking;
+import org.example.jws_gruppuppgift.entities.TravelBooking;
 import org.example.jws_gruppuppgift.entities.Destination;
 import org.example.jws_gruppuppgift.entities.Travel;
 import org.example.jws_gruppuppgift.services.BookingService;
@@ -33,41 +32,41 @@ public class AdminController
 
     /********** BOOKING ENDPOINTS ************/
     @GetMapping("/listcanceled")
-    public ResponseEntity<List<Booking>> getAllCancelledBookings()
+    public ResponseEntity<List<TravelBooking>> getAllCancelledBookings()
     {
-        List<Booking> bookings = bookingService.getAllBookingsByStatus(List.of(Booking.BookingStatus.CANCELLED));
+        List<TravelBooking> bookings = bookingService.getAllBookingsByStatus(List.of(TravelBooking.BookingStatus.CANCELLED));
 
         return ResponseEntity.ok(bookings);
     }
 
     @GetMapping("/listupcoming")
-    public ResponseEntity<List<Booking>> getAllUpcomingBookings()
+    public ResponseEntity<List<TravelBooking>> getAllUpcomingBookings()
     {
-        List<Booking> bookings = bookingService.getAllBookingsByStatus(List.of(Booking.BookingStatus.UPCOMING));
+        List<TravelBooking> bookings = bookingService.getAllBookingsByStatus(List.of(TravelBooking.BookingStatus.UPCOMING));
 
         return ResponseEntity.ok(bookings);
     }
 
     @GetMapping("/listpast")
-    public ResponseEntity<List<Booking>> getAllPastBookings()
+    public ResponseEntity<List<TravelBooking>> getAllPastBookings()
     {
-        List<Booking> bookings = bookingService.getAllBookingsByStatus(List.of(Booking.BookingStatus.PAST));
+        List<TravelBooking> bookings = bookingService.getAllBookingsByStatus(List.of(TravelBooking.BookingStatus.PAST));
 
         return ResponseEntity.ok(bookings);
     }
 
     @GetMapping("/booking/{id}")
-    public ResponseEntity<Booking> getBooking(@PathVariable Long id)
+    public ResponseEntity<TravelBooking> getBooking(@PathVariable Long id)
     {
-        Booking booking = bookingService.getBooking(id);
+        TravelBooking booking = bookingService.getBooking(id);
 
         return ResponseEntity.ok(booking);
     }
 
     @PutMapping("/updatebooking")
-    public ResponseEntity<Booking> updateBooking(@RequestBody Booking booking)
+    public ResponseEntity<TravelBooking> updateBooking(@RequestBody TravelBooking booking)
     {
-        Booking bookingToUpdate = bookingService.getBooking(booking.getId());
+        TravelBooking bookingToUpdate = bookingService.getBooking(booking.getId());
 
         return ResponseEntity.ok(bookingService.updateBooking(bookingToUpdate));
     }

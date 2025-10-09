@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-public class Booking
+public class TravelBooking
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,12 +45,12 @@ public class Booking
     @JsonBackReference
     private Travel travel;
 
-    public Booking()
+    public TravelBooking()
     {
 
     }
 
-    public Booking(String customer, LocalDate departureDate, int weeks, Travel travel)
+    public TravelBooking(String customer, LocalDate departureDate, int weeks, Travel travel)
     {
         this.customer = customer;
         this.departureDate = departureDate;

@@ -2,7 +2,6 @@ package org.example.jws_gruppuppgift.services;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.jws_gruppuppgift.entities.Booking;
 import org.example.jws_gruppuppgift.entities.Travel;
 import org.example.jws_gruppuppgift.exceptions.ResourceNotFoundException;
 import org.example.jws_gruppuppgift.repositories.BookingRepository;

@@ -1,6 +1,5 @@
 package org.example.jws_gruppuppgift.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -30,14 +29,14 @@ public class Travel
 
     @OneToMany(mappedBy = "travel")
     @JsonManagedReference
-    private List<Booking> bookings = new ArrayList<>();
+    private List<TravelBooking> bookings = new ArrayList<>();
 
     public Travel()
     {
 
     }
 
-    public Travel(Long id, float pricePerWeek, String hotel, Destination destination, List<Booking> bookings) {
+    public Travel(Long id, float pricePerWeek, String hotel, Destination destination, List<TravelBooking> bookings) {
         this.id = id;
         this.pricePerWeek = pricePerWeek;
         this.hotel = hotel;
@@ -99,11 +98,11 @@ public class Travel
         UNAVAILABLE
     }
 
-    public List<Booking> getBookings() {
+    public List<TravelBooking> getBookings() {
         return bookings;
     }
 
-    public void setBookings(List<Booking> bookings) {
+    public void setBookings(List<TravelBooking> bookings) {
         this.bookings = bookings;
     }
 }

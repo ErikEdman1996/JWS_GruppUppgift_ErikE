@@ -1,5 +1,5 @@
 package org.example.jws_gruppuppgift.services;
-import org.example.jws_gruppuppgift.entities.Booking;
+import org.example.jws_gruppuppgift.entities.TravelBooking;
 import org.example.jws_gruppuppgift.entities.Destination;
 import org.example.jws_gruppuppgift.exceptions.ResourceNotFoundException;
 import org.example.jws_gruppuppgift.repositories.TravelRepository;
@@ -37,7 +37,7 @@ class TravelServiceTest
     void setup()
     {
         destination = new Destination(1L, "Paris", "France");
-        travel = new Travel(1L, 1200.0f, "Hotel Lux", destination, new ArrayList<Booking>());
+        travel = new Travel(1L, 1200.0f, "Hotel Lux", destination, new ArrayList<TravelBooking>());
         travel.setStatus(Travel.AvailabilityStatus.AVAILABLE);
     }
 

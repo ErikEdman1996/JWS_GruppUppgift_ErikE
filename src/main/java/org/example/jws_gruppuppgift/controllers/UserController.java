@@ -1,8 +1,7 @@
 package org.example.jws_gruppuppgift.controllers;
 
 import org.example.jws_gruppuppgift.dtos.BookingRequestDTO;
-import org.example.jws_gruppuppgift.entities.Booking;
-import org.example.jws_gruppuppgift.entities.Travel;
+import org.example.jws_gruppuppgift.entities.TravelBooking;
 import org.example.jws_gruppuppgift.services.BookingService;
 import org.example.jws_gruppuppgift.services.TravelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,25 +27,25 @@ public class UserController
     }
 
     @PostMapping("/booktrip")
-    public ResponseEntity<Booking> createBooking(@RequestBody BookingRequestDTO bookingRequestDTO, Principal principal)
+    public ResponseEntity<TravelBooking> createBooking(@RequestBody BookingRequestDTO bookingRequestDTO, Principal principal)
     {
-        Booking createdBooking = bookingService.createBooking(bookingRequestDTO, principal.getName());
+        TravelBooking createdBooking = bookingService.createBooking(bookingRequestDTO, principal.getName());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(createdBooking);
     }
 
     @PutMapping("/canceltrip/{id}")
-    public ResponseEntity<Booking> cancelBooking(@PathVariable Long id, Principal principal)
+    public ResponseEntity<TravelBooking> cancelBooking(@PathVariable Long id, Principal principal)
     {
-        Booking cancelledBooking = bookingService.cancelBooking(id, principal.getName());
+        TravelBooking cancelledBooking = bookingService.cancelBooking(id, principal.getName());
 
         return ResponseEntity.ok(cancelledBooking);
     }
 
     @GetMapping("/mybookings")
-    public ResponseEntity<List<Booking>> getActiveAndPastBookings(Principal principal)
+    public ResponseEntity<List<TravelBooking>> getActiveAndPastBookings(Principal principal)
     {
-        List<Booking> bookings = bookingService.getAllActiveAndPastBookings(principal.getName());
+        List<TravelBooking> bookings = bookingService.getAllActiveAndPastBookings(principal.getName());
 
         return ResponseEntity.ok(bookings);
     }

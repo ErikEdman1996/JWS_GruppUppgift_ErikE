@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.example.jws_gruppuppgift.dtos.BookingRequestDTO;
-import org.example.jws_gruppuppgift.entities.Booking;
+import org.example.jws_gruppuppgift.entities.TravelBooking;
 import org.example.jws_gruppuppgift.entities.Destination;
 import org.example.jws_gruppuppgift.entities.Travel;
 import org.example.jws_gruppuppgift.repositories.BookingRepository;
@@ -53,12 +53,12 @@ class UserControllerIntegrationTest
         Destination destination = new Destination(1L, "Stockholm", "Sweden");
         Travel travel = new Travel(1L, 1500f, "The Waldorf Hilton", destination, null);
 
-        Booking booking = new Booking("Erik", LocalDate.of(2025, 10, 10), 2, travel);
+        TravelBooking booking = new TravelBooking("Erik", LocalDate.of(2025, 10, 10), 2, travel);
 
         // Stub repository behavior
         Mockito.when(bookingRepository.findAll()).thenReturn(List.of(booking));
         Mockito.when(bookingRepository.findById(1L)).thenReturn(Optional.of(booking));
-        Mockito.when(bookingRepository.save(Mockito.any(Booking.class))).thenReturn(booking);
+        Mockito.when(bookingRepository.save(Mockito.any(TravelBooking.class))).thenReturn(booking);
 
         // If travelService is used, mock it too
         Mockito.when(travelService.getAllTravels(false))

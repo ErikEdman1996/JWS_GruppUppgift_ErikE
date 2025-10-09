@@ -1,7 +1,7 @@
 package org.example.jws_gruppuppgift.services;
 
 import org.example.jws_gruppuppgift.dtos.BookingRequestDTO;
-import org.example.jws_gruppuppgift.entities.Booking;
+import org.example.jws_gruppuppgift.entities.TravelBooking;
 import org.example.jws_gruppuppgift.entities.Travel;
 import org.example.jws_gruppuppgift.exceptions.ResourceNotFoundException;
 import org.example.jws_gruppuppgift.exceptions.UnauthorizedActionException;
@@ -34,7 +34,7 @@ public class BookingService implements BookingServiceInterface
     }
 
     @Override
-    public Booking createBooking(BookingRequestDTO dto, String customer)
+    public TravelBooking createBooking(BookingRequestDTO dto, String customer)
     {
         bookingLogger.info("Retrieving travel with ID {}", dto.getTravelId());
         Travel travel = travelService.getTravelById(dto.getTravelId());
@@ -44,7 +44,7 @@ public class BookingService implements BookingServiceInterface
             throw new ResourceNotFoundException("Travel", "id", dto.getTravelId());
         }
 
-        Booking newBooking = new Booking(
+        TravelBooking newBooking = new TravelBooking(
                 customer,
                 dto.getDepartureDate(),
                 dto.getWeeks(),
@@ -66,10 +66,10 @@ public class BookingService implements BookingServiceInterface
     }
 
     @Override
-    public Booking cancelBooking(Long id, String customer)
+    public TravelBooking cancelBooking(Long id, String customer)
     {
         bookingLogger.info("Retrieving booking with ID {}", id);
-        Optional<Booking> booking = bookingRepository.findById(id);
+        Optional<TravelBooking> booking = bookingRepository.findById(id);
 
         if(!booking.isPresent())
         {
@@ -83,16 +83,16 @@ public class BookingService implements BookingServiceInterface
         }
 
         bookingLogger.info("Customer: {} cancelled booking with ID {}", customer, id);
-        booking.get().setStatus(Booking.BookingStatus.CANCELLED);
+        booking.get().setStatus(TravelBooking.BookingStatus.CANCELLED);
 
         return bookingRepository.save(booking.get());
     }
 
     @Override
-    public Booking getBooking(Long id)
+    public TravelBooking getBooking(Long id)
     {
         bookingLogger.info("Retrieving booking with ID {}", id);
-        Optional<Booking> booking = bookingRepository.findById(id);
+        Optional<TravelBooking> booking = bookingRepository.findById(id);
 
         if(!booking.isPresent())
         {
@@ -104,10 +104,10 @@ public class BookingService implements BookingServiceInterface
     }
 
     @Override
-    public Booking updateBooking(Booking booking)
+    public TravelBooking updateBooking(TravelBooking booking)
     {
         bookingLogger.info("Retrieving booking with ID {}", booking.getId());
-        Optional<Booking> bookingToUpdate = bookingRepository.findById(booking.getId());
+        Optional<TravelBooking> bookingToUpdate = bookingRepository.findById(booking.getId());
 
         if(!bookingToUpdate.isPresent())
         {
@@ -123,7 +123,7 @@ public class BookingService implements BookingServiceInterface
     public void deleteBooking(Long id)
     {
         bookingLogger.info("Retrieving booking with ID {}", id);
-        Optional<Booking> bookingToDelete = bookingRepository.findById(id);
+        Optional<TravelBooking> bookingToDelete = bookingRepository.findById(id);
 
         if(!bookingToDelete.isPresent())
         {
@@ -136,26 +136,26 @@ public class BookingService implements BookingServiceInterface
     }
 
     @Override
-    public List<Booking> getAllBookings()
+    public List<TravelBooking> getAllBookings()
     {
         bookingLogger.info("Retrieving all bookings");
         return bookingRepository.findAll();
     }
 
     @Override
-    public List<Booking> getAllActiveAndPastBookings(String customer)
+    public List<TravelBooking> getAllActiveAndPastBookings(String customer)
     {
         bookingLogger.info("Retrieving all active and past bookings belonging to {}", customer);
-        List<Booking> bookings = bookingRepository.findByCustomerAndStatusIn(customer, List.of(Booking.BookingStatus.ACTIVE, Booking.BookingStatus.PAST));
+        List<TravelBooking> bookings = bookingRepository.findByCustomerAndStatusIn(customer, List.of(TravelBooking.BookingStatus.ACTIVE, TravelBooking.BookingStatus.PAST));
 
         return bookings;
     }
 
     @Override
-    public List<Booking> getAllBookingsByStatus(List<Booking.BookingStatus> statuses)
+    public List<TravelBooking> getAllBookingsByStatus(List<TravelBooking.BookingStatus> statuses)
     {
         bookingLogger.info("Retrieving all bookings with the statuses: {}", statuses);
-        List<Booking> bookings = bookingRepository.findByStatusIn(statuses);
+        List<TravelBooking> bookings = bookingRepository.findByStatusIn(statuses);
 
         return bookings;
     }
