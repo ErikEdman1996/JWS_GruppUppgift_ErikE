@@ -27,7 +27,7 @@ public class Travel
     @Column
     private AvailabilityStatus status;
 
-    @OneToMany(mappedBy = "travel")
+    @OneToMany(mappedBy = "travel", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<TravelBooking> bookings = new ArrayList<>();
 
